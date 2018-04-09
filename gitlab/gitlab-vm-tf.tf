@@ -14,7 +14,7 @@ provider "azurerm" {
 
 # Create a resource group if it doesn’t exist
 resource "azurerm_resource_group" "gitlabgroup" {
-    name     = "${resourcename}"
+    name     = "gitlab-resource-group"
     location = "eastus"
 
     tags {
@@ -74,7 +74,7 @@ resource "azurerm_network_security_group" "gitlabnsg" {
 
     security_rule {
         name                       = "HTTP"
-        priority                   = 1001
+        priority                   = 1002
         direction                  = "Inbound"
         access                     = "Allow"
         protocol                   = "Tcp"
@@ -86,7 +86,7 @@ resource "azurerm_network_security_group" "gitlabnsg" {
 
     security_rule {
         name                       = "HTTPS"
-        priority                   = 1001
+        priority                   = 1003
         direction                  = "Inbound"
         access                     = "Allow"
         protocol                   = "Tcp"
@@ -189,13 +189,10 @@ resource "azurerm_virtual_machine" "gitlabvm" {
 
     os_profile_linux_config {
         disable_password_authentication = true
-        ssh_keys [{
-            path     = "/home/azureuser/.ssh/authorized_keys"
-            key_data = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDXjF9vYzTqskEsLI/o3Nyj3P1kDpXS5XaTXaLA0f4oK7gylupRUB3KqLf6ped6AOs94+ADjMwjlurWnRG2SYr+MbYt/MS4lRq1DTD+HbgQwr9SD+3DsyyUB60s4hFm3tJwvOIytJ4MF8KZyKJ006KoUx7Igqwv1MUnmdxDAwMNw05kcJrVc2Fy/vT5EZlBC1OFHIh53fbHbZNlX13hLuCfoMNYe3v9KYVNPYt/gzFC0HjA+S4teAsv6F8yvvjh8ZN4UKW0FnkNS5Z85VwgneZkyE+SgCtu1OTs3Lmad9m8KKBw0tWn1/yPJML6FJdb0IsAXDbkijHMG+RNZKj6NyEz Mykhailo_Samorokov@EPUSPRIW1125"
-        },{
+        ssh_keys {
             path     = "/home/azureuser/.ssh/authorized_keys"
             key_data = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDFbsGEDOs83SnJ6TeTDSZEBTqMTEt8q/aD4eiGAV6ms2L0sBNwGJR0EsQHzHA7bQ+rS1vAL8Ce69j6CyyqC21cdeepOjP+1Dt15qJU7AK3FZcQWxApqdbCMV373oyK7HqZGLa8TuCmaScsQpdzX2xh1yzPfSHHPeaE+OfZbvu5bET78yALnEUrKn1ClFQE5Z39McW2AViTOnoOY4a3kPZp8AXbZPUERy+GM6KglltalHmLEToy82dN3LQnzdS6o83MF0OTW705Nc/en4eHl3WSJ+pKos4ckB7Jpaaxemu7X8aKC5eKKgJ1wf5FXXTDzeOJVlI/YbTSfMBGxKE6VJx/ michael@DESKTOP-2OFI6F3"
-        }]
+        }
     }
 
     boot_diagnostics {
